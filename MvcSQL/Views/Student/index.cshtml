@@ -6,18 +6,44 @@
 
 @* <h1>@ViewData["Title"]</h1> *@
 
-<h1 style="color: red;">Test View</h1>
 
-@if (Model != null)
+
+@if (Model.Count()>0)
 {
-    @foreach(var student in Model){
-     <p>ID : @student.Id</p>
-    <p>Name : @student.Name</p>
-    <p>Score : @student.Score</p>
-    }
-   
+    <h1 style="color: red;">Test View</h1>
+
+<h1 class="text-center">คะแนนวิชา</h1>
+<table class="table" >
+    <thead>
+        <tr>
+            <th>รหัสนักเรียน</th>
+            <th>ชื่อนักเรียน</th>
+            <th>คะแนนสอบ</th>
+            <th>แก้ไข</th>
+            <th>ลบ</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var student in Model)
+        {
+        <tr>
+            <td>@student.Id</td>
+            <td>@student.Name</td>
+            <td>@student.Score</td>
+            <td><a class="btn btn-warning" asp-controller="Student" asp-action="Edit"asp-route-id="@student.Id">แก้ไข</a></td>
+            <td><a class="btn btn-warning" 
+            asp-controller="Student" 
+            asp-action="Delete"
+            asp-route-id="@student.Id"
+            onclick="return confirm('คุณต้องการลบ @student.Name หรือไม่ ?')">ลบ</a></td>
+        </tr>
+        }
+        
+    </tbody>
+</table>
+
 }
 else
 {
-    <p style="color:red;">Model is null!</p>
+    <divc class="alert alert-secondary">ไม่มีข้อมูลนักเรียนในระบบ </divc>
 }

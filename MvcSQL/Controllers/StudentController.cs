@@ -1,61 +1,118 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MvcSQL.Data;
 using MvcSQL.Models;
 
 namespace MvcSQL.Controllers
 {
     // [Route("[controller]")]
     public class StudentController : Controller
+    
     {
+        private readonly ApplicationDBContext _db;
         private readonly ILogger<StudentController> _logger;
-        private string? s1;
+       public StudentController(ApplicationDBContext db, ILogger<StudentController> logger)
+    {
+    _db = db;
+    _logger = logger;
+    }
+       
+        
+        // private string? s1;
 
-        public StudentController(ILogger<StudentController> logger)
-        {
-            _logger = logger;
-        }
+       
 
         public IActionResult Index()
         {
             Student sd1 = new Student();
+
+            IEnumerable <Student> allStudnet =_db.Student;
             
-            sd1.Id = 1;
-            sd1.Name = "Test1";
-            sd1.Score = 50;
-
-       
-            
-            
-
-            var sd2 = new Student();
-            sd2.Id = 2;
-            sd2.Name = "Test2";
-            sd2.Score = 40;
-            // var sd3 = new Student();
-            // return Content("Test-eiei");
-
-            List<Student> allstudent = new List<Student>();
-            allstudent.Add(sd1);
-            allstudent.Add(sd2);
-
-                 return View(allstudent);
+                 return View(allStudnet);
             
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        // public IActionResult Error()
+        // {
+        //     return View("Error!");
+        // }
+
+        // Get Method defaule
+        public IActionResult Create()
         {
-            return View("Error!");
+            return View();
         }
 
-        public IActionResult ShowScore (int id)
+        // public IActionResult ShowScore (int id)
+        // {
+        //     return Content($"{id}  of Sd");
+        // }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Student obj)
         {
-            return Content($"{id}  of Sd");
+            if(ModelState.IsValid)
+            {
+                _db.Student.Add(obj);
+                 _db.SaveChanges();
+                 return RedirectToAction("Index");
+            }
+            return View(obj);
         }
+
+
+
+    public IActionResult Edit(int? id)
+        {
+            if (id == null || id==0)
+            {
+                return NotFound();
+            }
+            var obj = _db.Student.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+         public IActionResult Edit(Student obj)
+        {
+            if(ModelState.IsValid)
+            {
+                _db.Student.Update(obj);
+                 _db.SaveChanges();
+                 return RedirectToAction("Index");
+            }
+            return View(obj);
+        }
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id==0)
+            {
+                return NotFound();
+            }
+            // ค้นหาข้อมูลจากฐานข้อมูล
+            var obj = _db.Student.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            _db.Student.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+         }
+    
+
+    
+
     }
 }

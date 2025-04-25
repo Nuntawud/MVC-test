@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MvcSQL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bac49b9df4a718e703d46f539b2725f9b381f6c2")]
 [assembly: System.Reflection.AssemblyProductAttribute("MvcSQL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MvcSQL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
