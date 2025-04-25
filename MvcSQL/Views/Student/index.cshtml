@@ -1,0 +1,23 @@
+@* @model MvcSQL.Models.Student *@
+@model IEnumerable<MvcSQL.Models.Student>
+@{
+    @* ViewData["Title"] = "index"; *@
+}
+
+@* <h1>@ViewData["Title"]</h1> *@
+
+<h1 style="color: red;">Test View</h1>
+
+@if (Model != null)
+{
+    @foreach(var student in Model){
+     <p>ID : @student.Id</p>
+    <p>Name : @student.Name</p>
+    <p>Score : @student.Score</p>
+    }
+   
+}
+else
+{
+    <p style="color:red;">Model is null!</p>
+}
